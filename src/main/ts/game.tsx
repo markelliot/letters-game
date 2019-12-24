@@ -48,7 +48,7 @@ const timerStyle = style(
 const board = style({display: "flex", flexWrap: "wrap"});
 const regularDie = style(
     css.padding("10px"),
-    css.width("112px"),
+    css.width("92px"),
     css.fontWeightBold,
     {
         border: "1px solid #999",
@@ -60,7 +60,7 @@ const regularDie = style(
     });
 const extraDie = style(
     css.padding("10px"),
-    css.width("112px"),
+    css.width("92px"),
     css.fontWeightBold,
     {
         border: "1px solid #999",

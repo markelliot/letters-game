@@ -37,9 +37,9 @@ function shuffle(array: string[]): string[] {
     return array;
 }
 
-const game = style(css.margin(0, "auto"), css.width("400px"));
+const game = style(css.margin(0, "auto"), css.width("340px"));
 const timerStyle = style(
-    css.width("400px"),
+    css.width("100%"),
     {
         fontSize: "50px",
         textAlign: "center",

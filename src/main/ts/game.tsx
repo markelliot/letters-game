@@ -37,7 +37,7 @@ function shuffle(array: string[]): string[] {
     return array;
 }
 
-const game = style(css.margin(0, "auto"), css.width("340px"));
+const game = style(css.margin(0, "auto"), css.width("330px"));
 const timerStyle = style(
     css.width("100%"),
     {
@@ -56,7 +56,7 @@ const regularDie = style(
         display: "inline-block",
         fontSize: "70px",
         lineHeight: "70px",
-        margin: "10px",
+        margin: "8px",
         textAlign: "center",
     });
 const extraDie = style(
@@ -69,7 +69,7 @@ const extraDie = style(
         display: "inline-block",
         fontSize: "70px",
         lineHeight: "70px",
-        margin: "10px",
+        margin: "8px",
         textAlign: "center",
     });
 

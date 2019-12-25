@@ -45,7 +45,7 @@ const timerStyle = style(
         textAlign: "center",
     },
 );
-const board = style({display: "flex", flexWrap: "wrap"});
+const board = style({textAlign: "center"});
 const regularDie = style(
     css.padding("10px"),
     css.width("92px"),
@@ -53,6 +53,7 @@ const regularDie = style(
     {
         border: "1px solid #999",
         color: "#000",
+        display: "inline-block",
         fontSize: "70px",
         lineHeight: "70px",
         margin: "10px",
@@ -65,8 +66,9 @@ const extraDie = style(
     {
         border: "1px solid #999",
         color: "#f00",
-        fontSize: "80px",
-        lineHeight: "90px",
+        display: "inline-block",
+        fontSize: "70px",
+        lineHeight: "70px",
         margin: "10px",
         textAlign: "center",
     });
@@ -81,7 +83,7 @@ export class Game extends React.Component<{}, IGameState> {
     public componentWillMount() {
         const regular = shuffle(regularDice.map((die) => randomElement(die)));
         const extras = shuffle(extraDice.map((die) => randomElement(die)));
-        this.setState({ timer: 180, extras, regular });
+        this.setState({ timer: 120, extras, regular });
         const interval = setInterval(() => {
             this.setState({ timer: Math.max(0, this.state.timer - 1) });
             if (this.state.timer === 0) {

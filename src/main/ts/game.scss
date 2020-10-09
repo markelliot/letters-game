@@ -1,0 +1,57 @@
+body {
+    font-family: "Roboto";
+}
+
+.game {
+    margin: 0 auto;
+    max-width: 550px;
+}
+
+.timer {
+    font-size: 50px;
+    padding: 2px;
+    text-align: center;
+    width: 100%;
+}
+
+.reset {
+    line-height: 48px;
+}
+
+.board {
+    text-align: center;
+}
+
+.board div {
+    border: 1px solid #999;
+    color: #000;
+    display: inline-block;
+    font-size: 70px;
+    font-weight: bold;
+    line-height: 70px;
+    margin: 8px;
+    padding: 10px;
+    width: 92px;
+}
+
+.extra-die div {
+    color: #f00;
+}
+
+.scorecard table {
+    border: 1px solid #999;
+    border-collapse: collapse;
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    width: 80%;
+
+    th, td {
+        border: 1px solid #999;
+        padding: 4px;
+        text-align: center;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #eee;
+    }
+}

@@ -41,7 +41,9 @@ module.exports = {
         }),
     ],
     devServer: {
-        contentBase: "./build/assets",
+        static: {
+            directory: "./build/assets",
+        },
         compress: true,
         port: 8080,
     },

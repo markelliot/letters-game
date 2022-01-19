@@ -2643,11 +2643,11 @@ fsevents@~2.3.2:
     css-loader: ^6.5.1
     csstips: ^1.2.0
     html-webpack-plugin: ^5.5.0
-    mini-css-extract-plugin: ^2.4.6
+    mini-css-extract-plugin: ^2.5.2
     process: ^0.11.10
     react: ^17.0.2
     react-dom: ^17.0.2
-    sass: ^1.48.0
+    sass: ^1.49.0
     sass-loader: ^12.4.0
     style-loader: ^3.3.1
     ts-loader: ^9.2.6
@@ -2845,14 +2845,14 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:^2.4.6":
-  version: 2.4.6
-  resolution: "mini-css-extract-plugin@npm:2.4.6"
+"mini-css-extract-plugin@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "mini-css-extract-plugin@npm:2.5.2"
   dependencies:
     schema-utils: ^4.0.0
   peerDependencies:
     webpack: ^5.0.0
-  checksum: 7eb3dcbf1e46d5a9cdb6ed1c2b687f6ad5a739e420208511b01f59d45d69328fa7ba57aa44c9b3f7beff8e27cd9fe5188ecd636b4c33f9199ea3bdb9f4a5218e
+  checksum: 9d9ad48780cf1e14b1d778a18b2e8e98031ad948a174dd7bf283d4832fd206a54f3119def455caa7389749808cd13160481ce872d6314c54adc0db1c5280649e
   languageName: node
   linkType: hard
 
@@ -3803,16 +3803,16 @@ resolve@^1.9.0:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.48.0":
-  version: 1.48.0
-  resolution: "sass@npm:1.48.0"
+"sass@npm:^1.49.0":
+  version: 1.49.0
+  resolution: "sass@npm:1.49.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 0fa57d17a9ac9eff914719a3c9cf986cb81c6714cc09214ace65e9f1af0bd47f750793dfc39bbd1b199c9b8c12b1e4aba669ba08dfbd649cfb581c55d20a839f
+  checksum: 7cd60868594fb0b6fed87bf4870ad5a7da7e3746cb5127f3ede2565380f3e30ba2de72d64e9083f2d55d0de81f756894fe6d9314c97acb704cf9fc97fbbafd0c
   languageName: node
   linkType: hard
 

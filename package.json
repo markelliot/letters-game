@@ -11,9 +11,9 @@
     "preview": "yarn && webpack serve"
   },
   "devDependencies": {
-    "css-loader": "^6.6.0",
+    "css-loader": "^6.7.0",
     "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.5.3",
+    "mini-css-extract-plugin": "^2.6.0",
     "process": "^0.11.10",
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",

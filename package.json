@@ -32,7 +32,7 @@
     "csstips": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typestyle": "^2.3.0"
+    "typestyle": "^2.4.0"
   },
   "packageManager": "yarn@3.1.0"
 }

@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'yarn'
-      - uses: markelliot/update-yarn-deps@v2
+      - uses: markelliot/update-yarn-deps@v1
         with:
           push-to-repo-token: ${{ steps.token.outputs.token }}
           commit-user: mellbot[bot]

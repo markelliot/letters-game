@@ -14,7 +14,7 @@ jobs:
         with:
           app_id: ${{ secrets.MELLBOT_APP_ID }}
           private_key: ${{ secrets.MELLBOT_PK }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           token: ${{ steps.token.outputs.token }}
           fetch-depth: 0

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom/client";
 
 import {normalize, setupPage} from "csstips";
 
@@ -10,7 +10,5 @@ normalize();
 setupPage("#root");
 
 // render root element
-ReactDOM.render(
-    <Game />,
-    document.getElementById("root"),
-);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+root.render(<Game />);

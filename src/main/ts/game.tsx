@@ -46,7 +46,7 @@ interface IGameState {
 export class Game extends React.Component<{}, IGameState> {
     public componentWillMount() {
         this.reset();
-        const interval = setInterval(() => {
+        setInterval(() => {
             this.setState({ timer: Math.max(0, this.state.timer - 1) });
         }, 1000);
     }

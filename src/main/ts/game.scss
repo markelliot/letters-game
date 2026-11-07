@@ -134,8 +134,26 @@ body {
         text-align: center;
     }
 
+    table-layout: fixed;
+
+    col.label {
+        width: 16%;
+    }
+
     tr:nth-child(even) {
         background-color: #eee;
+    }
+
+    tr.combo {
+        border-top: 2px solid #666;
+
+        td {
+            background-color: #fdf3d8;
+        }
+
+        td.gap {
+            background-color: transparent;
+        }
     }
 }
 

@@ -321,104 +321,56 @@ function Solutions(props: { solutions: ISolution[] | "loading" | "error" | undef
     );
 }
 
+const wordLengths = [3, 4, 5, 6, 7, 8, 9, 10];
+
+const scores: [string, string[]][] = [
+    ["One", ["60", "120", "200", "300", "500", "750", "1000", "1500"]],
+    ["Two", ["70", "140", "250", "400", "650", "1000", "1500", "3000"]],
+    ["Three", ["80", "160", "300", "500", "800", "1250", "2000", "5000"]],
+    ["Four", ["90", "180", "350", "600", "950", "1500", "2500", "-"]],
+    ["Five", ["100", "200", "400", "700", "1100", "1750", "3000", "-"]],
+];
+
+// Bonus for words of two consecutive lengths, starting at 3 & 4.
+const comboBonuses = ["300", "500", "800", "1200", "1850"];
+
+// Each length column is two half-columns so combo cells can straddle column boundaries.
 const Scorecard = React.memo(function Scorecard() {
     return (
         <div className="scorecard">
             <table>
+                <colgroup>
+                    <col className="label" />
+                    {wordLengths.flatMap((length) => [<col key={`${length}a`} />, <col key={`${length}b`} />])}
+                </colgroup>
                 <tbody>
                     <tr>
                         <th></th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                        <th>6</th>
-                        <th>7</th>
-                        <th>8</th>
-                        <th>9</th>
-                        <th>10</th>
+                        {wordLengths.map((length) => (
+                            <th colSpan={2} key={length}>
+                                {length}
+                            </th>
+                        ))}
                     </tr>
-                    <tr>
-                        <th>One</th>
-                        <td>60</td>
-                        <td>120</td>
-                        <td>200</td>
-                        <td>300</td>
-                        <td>500</td>
-                        <td>750</td>
-                        <td>1000</td>
-                        <td>1500</td>
-                    </tr>
-                    <tr>
-                        <th>Two</th>
-                        <td>70</td>
-                        <td>140</td>
-                        <td>250</td>
-                        <td>400</td>
-                        <td>650</td>
-                        <td>1000</td>
-                        <td>1500</td>
-                        <td>3000</td>
-                    </tr>
-                    <tr>
-                        <th>Three</th>
-                        <td>80</td>
-                        <td>160</td>
-                        <td>300</td>
-                        <td>500</td>
-                        <td>800</td>
-                        <td>1250</td>
-                        <td>2000</td>
-                        <td>5000</td>
-                    </tr>
-                    <tr>
-                        <th>Four</th>
-                        <td>90</td>
-                        <td>180</td>
-                        <td>350</td>
-                        <td>600</td>
-                        <td>950</td>
-                        <td>1500</td>
-                        <td>2500</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th>Five</th>
-                        <td>100</td>
-                        <td>200</td>
-                        <td>400</td>
-                        <td>700</td>
-                        <td>1100</td>
-                        <td>1750</td>
-                        <td>3000</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <tbody>
-                    <tr>
+                    {scores.map(([label, values]) => (
+                        <tr key={label}>
+                            <th>{label}</th>
+                            {values.map((value, index) => (
+                                <td colSpan={2} key={index}>
+                                    {value}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                    <tr className="combo">
                         <th>Combo</th>
-                        <th>Bonus</th>
-                    </tr>
-                    <tr>
-                        <td>3 &amp; 4</td>
-                        <td>300</td>
-                    </tr>
-                    <tr>
-                        <td>4 &amp; 5</td>
-                        <td>500</td>
-                    </tr>
-                    <tr>
-                        <td>5 &amp; 6</td>
-                        <td>800</td>
-                    </tr>
-                    <tr>
-                        <td>6 &amp; 7</td>
-                        <td>1200</td>
-                    </tr>
-                    <tr>
-                        <td>7 &amp; 8</td>
-                        <td>1850</td>
+                        <td className="gap" />
+                        {comboBonuses.map((bonus, index) => (
+                            <td colSpan={2} key={index}>
+                                {bonus}
+                            </td>
+                        ))}
+                        <td className="gap" colSpan={2 * wordLengths.length - 1 - 2 * comboBonuses.length} />
                     </tr>
                 </tbody>
             </table>

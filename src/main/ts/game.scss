@@ -1,3 +1,6 @@
+$header-height: 64px;
+$tile-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
 body {
     font-family: "Roboto";
 }
@@ -5,37 +8,117 @@ body {
 .game {
     margin: 0 auto;
     max-width: 550px;
+    padding-bottom: 24px;
 }
 
-.timer {
+.header {
+    align-items: center;
+    display: flex;
+    height: $header-height;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+.time {
     font-size: 50px;
-    padding: 2px;
-    text-align: center;
-    width: 100%;
+    font-variant-numeric: tabular-nums;
+    line-height: $header-height;
 }
 
-.reset {
-    line-height: 48px;
+.action {
+    background: linear-gradient(#4a90e2, #2f6fbf);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 #22528f, 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: bold;
+    height: 52px;
+    letter-spacing: 0.04em;
+    padding: 0 32px;
+    text-transform: uppercase;
+
+    &:active {
+        box-shadow: 0 1px 0 #22528f, 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(2px);
+    }
 }
 
 .board {
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.board div {
-    border: 1px solid #999;
-    color: #000;
-    display: inline-block;
+.tile {
+    background: linear-gradient(160deg, #fffdf6 0%, #f3ead2 100%);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.08),
+        0 4px 0 #c9bb96,
+        0 6px 10px rgba(0, 0, 0, 0.18);
+    color: #111;
     font-size: 70px;
     font-weight: bold;
-    line-height: 70px;
-    margin: 8px;
-    padding: 10px;
-    width: 92px;
+    height: 96px;
+    line-height: 96px;
+    margin: 6px 6px 12px;
+    perspective: 400px;
+    text-align: center;
+    transition:
+        width 600ms $tile-ease,
+        height 600ms $tile-ease,
+        line-height 600ms $tile-ease,
+        font-size 600ms $tile-ease,
+        margin 600ms $tile-ease,
+        border-radius 600ms $tile-ease;
+    width: 96px;
 }
 
-.extra-die div {
-    color: #f00;
+.extra-die .tile {
+    color: #d11;
+}
+
+.face {
+    animation: flip 80ms ease-out;
+    display: inline-block;
+
+    &.settled {
+        animation: land 260ms $tile-ease;
+    }
+}
+
+@keyframes flip {
+    from {
+        transform: rotateX(-90deg);
+    }
+    to {
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes land {
+    0% {
+        transform: rotateX(-90deg) scale(1);
+    }
+    60% {
+        transform: rotateX(0deg) scale(1.12);
+    }
+    100% {
+        transform: rotateX(0deg) scale(1);
+    }
+}
+
+.tiles.compact .tile {
+    border-radius: 8px;
+    font-size: 32px;
+    height: 46px;
+    line-height: 46px;
+    margin: 4px 4px 8px;
+    width: 46px;
 }
 
 .scorecard table {
@@ -50,8 +133,56 @@ body {
         padding: 4px;
         text-align: center;
     }
-    
+
     tr:nth-child(even) {
         background-color: #eee;
+    }
+}
+
+.solutions {
+    margin: 16px auto 0;
+    text-align: center;
+    width: 80%;
+}
+
+.word-list {
+    text-align: left;
+
+    h2 {
+        border-bottom: 1px solid #999;
+        font-size: 20px;
+        margin: 16px 0 8px;
+    }
+
+    h3 {
+        font-size: 15px;
+        margin: 10px 0 4px;
+    }
+
+    .count {
+        color: #777;
+        font-weight: normal;
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        color: #111;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .uses-red a {
+        color: #d11;
     }
 }

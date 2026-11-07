@@ -53,13 +53,14 @@ body {
 }
 
 .tile {
-    background: linear-gradient(160deg, #fffdf6 0%, #f3ead2 100%);
-    border-radius: 14px;
+    background: radial-gradient(circle at 32% 28%, #fff 0%, #f8f6f1 42%, #e6e1d6 100%);
+    border-radius: 22%;
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.08),
-        0 4px 0 #c9bb96,
-        0 6px 10px rgba(0, 0, 0, 0.18);
+        inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+        inset 4px 4px 6px rgba(255, 255, 255, 0.95),
+        inset -5px -6px 10px rgba(0, 0, 0, 0.13),
+        0 2px 3px rgba(0, 0, 0, 0.18),
+        0 10px 16px -4px rgba(0, 0, 0, 0.25);
     color: #111;
     font-size: 70px;
     font-weight: bold;
@@ -68,13 +69,16 @@ body {
     margin: 6px 6px 12px;
     perspective: 400px;
     text-align: center;
+    text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9),
+        0 -1px 1px rgba(0, 0, 0, 0.25);
     transition:
+        transform 140ms ease-out,
         width 600ms $tile-ease,
         height 600ms $tile-ease,
         line-height 600ms $tile-ease,
         font-size 600ms $tile-ease,
-        margin 600ms $tile-ease,
-        border-radius 600ms $tile-ease;
+        margin 600ms $tile-ease;
     width: 96px;
 }
 
@@ -113,7 +117,6 @@ body {
 }
 
 .tiles.compact .tile {
-    border-radius: 8px;
     font-size: 32px;
     height: 46px;
     line-height: 46px;

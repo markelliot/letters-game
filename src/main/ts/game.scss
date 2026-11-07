@@ -167,9 +167,65 @@ body {
     text-align: left;
 
     h2 {
+        align-items: center;
         border-bottom: 1px solid #999;
+        display: flex;
         font-size: 20px;
+        justify-content: space-between;
         margin: 16px 0 8px;
+    }
+
+    .toggle {
+        align-items: center;
+        color: #d11;
+        cursor: pointer;
+        display: flex;
+        font-size: 14px;
+        font-weight: normal;
+        gap: 6px;
+        user-select: none;
+
+        input {
+            height: 0;
+            opacity: 0;
+            position: absolute;
+            width: 0;
+        }
+
+        .switch {
+            background: #ccc;
+            border-radius: 9px;
+            height: 18px;
+            position: relative;
+            transition: background 150ms;
+            width: 32px;
+
+            &::after {
+                background: #fff;
+                border-radius: 50%;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                content: "";
+                height: 14px;
+                left: 2px;
+                position: absolute;
+                top: 2px;
+                transition: transform 150ms;
+                width: 14px;
+            }
+        }
+
+        input:checked + .switch {
+            background: #d11;
+
+            &::after {
+                transform: translateX(14px);
+            }
+        }
+
+        input:focus-visible + .switch {
+            outline: 2px solid #4a90e2;
+            outline-offset: 2px;
+        }
     }
 
     h3 {

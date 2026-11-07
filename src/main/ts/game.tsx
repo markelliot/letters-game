@@ -160,6 +160,7 @@ export function Game() {
     const [elapsed, setElapsed] = React.useState(0);
     const [remaining, setRemaining] = React.useState(roundSeconds);
     const [solutions, setSolutions] = React.useState<ISolution[] | "loading" | "error" | undefined>();
+    const [showReds, setShowReds] = React.useState(false);
 
     React.useEffect(() => {
         if (phase !== "rolling") {
@@ -268,13 +269,21 @@ export function Game() {
                 <div className="board extra-die">{renderTiles(current?.extras, extraDice.length)}</div>
             </div>
             <Scorecard />
-            {phase === "ended" && <Solutions solutions={solutions} />}
+            {phase === "ended" && <Solutions onShowRedsChange={setShowReds} showReds={showReds} solutions={solutions} />}
         </div>
     );
 }
 
-function Solutions(props: { solutions: ISolution[] | "loading" | "error" | undefined }) {
-    const { solutions } = props;
+function Solutions(props: {
+    solutions: ISolution[] | "loading" | "error" | undefined;
+    showReds: boolean;
+    onShowRedsChange: (showReds: boolean) => void;
+}) {
+    const { showReds } = props;
+    const solutions =
+        typeof props.solutions === "object" && !showReds
+            ? props.solutions.filter((solution) => !solution.red.includes(true))
+            : props.solutions;
     if (solutions === undefined || solutions === "loading") {
         return <div className="solutions">Finding words…</div>;
     }
@@ -293,7 +302,14 @@ function Solutions(props: { solutions: ISolution[] | "loading" | "error" | undef
         <div className="solutions">
             <section className="word-list">
                 <h2>
-                    Words <span className="count">({solutions.length})</span>
+                    <span>
+                        Words <span className="count">({solutions.length})</span>
+                    </span>
+                    <label className="toggle">
+                        <input checked={showReds} onChange={(event) => props.onShowRedsChange(event.target.checked)} type="checkbox" />
+                        <span className="switch" />
+                        Show reds
+                    </label>
                 </h2>
                 {lengths.length === 0 && <p>No words found.</p>}
                 {lengths.map((length) => (

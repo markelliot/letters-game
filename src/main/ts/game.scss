@@ -62,8 +62,7 @@ body {
         0 2px 3px rgba(0, 0, 0, 0.18),
         0 10px 16px -4px rgba(0, 0, 0, 0.25);
     color: #111;
-    // Figtree is loaded with only its J glyph; every other letter falls back to Rubik.
-    font-family: "Figtree", "Rubik", "Roboto", sans-serif;
+    font-family: "Lexend", "Roboto", sans-serif;
     font-size: 70px;
     font-weight: 600;
     height: 96px;
@@ -105,7 +104,6 @@ body {
     display: inline-block;
     opacity: 0.88;
     position: relative;
-    top: 0.05em;
     text-shadow:
         0 2px 0 rgba(255, 255, 255, 0.95),
         0 1px 1px rgba(255, 255, 255, 0.9),

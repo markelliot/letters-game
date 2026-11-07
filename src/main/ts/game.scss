@@ -286,7 +286,7 @@ body {
 
 @media (max-width: 540px) {
     .tile {
-        $size: min(120px, calc((100vw - 16px) / 3 - 10px));
+        $size: min(120px, calc((100vw - 16px) / 3 - 10px), calc((100svh - 150px) / 5));
         font-size: calc(#{$size} * 0.7);
         height: $size;
         line-height: $size;

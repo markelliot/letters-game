@@ -107,34 +107,51 @@ function loadWordList(): Promise<string[]> {
     return wordListPromise;
 }
 
-function letterCounts(letters: string): Int8Array {
+function letterCounts(letters: string[]): Int8Array {
     const counts = new Int8Array(26);
-    for (let i = 0; i < letters.length; i++) {
-        counts[letters.charCodeAt(i) - 97]++;
+    for (const letter of letters) {
+        counts[letter.toLowerCase().charCodeAt(0) - 97]++;
     }
     return counts;
 }
 
-function spellable(words: string[], letters: string[]): string[] {
-    const available = letterCounts(letters.join("").toLowerCase());
-    const counts = new Int8Array(26);
-    return words.filter((word) => {
-        if (word.length > letters.length) {
-            return false;
-        }
-        counts.set(available);
-        for (let i = 0; i < word.length; i++) {
-            if (--counts[word.charCodeAt(i) - 97] < 0) {
-                return false;
-            }
-        }
-        return true;
-    });
+interface ISolution {
+    word: string;
+    red: boolean[];
 }
 
-interface ISolutions {
-    black: string[];
-    all: string[];
+// Black tiles are used before red ones; words that need a red tile must be 4+ letters.
+function solve(words: string[], black: string[], red: string[]): ISolution[] {
+    const blackAvailable = letterCounts(black);
+    const redAvailable = letterCounts(red);
+    const blackCounts = new Int8Array(26);
+    const redCounts = new Int8Array(26);
+    const solutions: ISolution[] = [];
+    for (const word of words) {
+        if (word.length > black.length + red.length) {
+            continue;
+        }
+        blackCounts.set(blackAvailable);
+        redCounts.set(redAvailable);
+        const usesRed: boolean[] = [];
+        let ok = true;
+        for (let i = 0; i < word.length && ok; i++) {
+            const c = word.charCodeAt(i) - 97;
+            if (blackCounts[c] > 0) {
+                blackCounts[c]--;
+                usesRed.push(false);
+            } else if (redCounts[c] > 0) {
+                redCounts[c]--;
+                usesRed.push(true);
+            } else {
+                ok = false;
+            }
+        }
+        if (ok && (word.length >= 4 || !usesRed.includes(true))) {
+            solutions.push({ red: usesRed, word });
+        }
+    }
+    return solutions;
 }
 
 export function Game() {
@@ -142,7 +159,7 @@ export function Game() {
     const [current, setCurrent] = React.useState<IRoll | undefined>();
     const [elapsed, setElapsed] = React.useState(0);
     const [remaining, setRemaining] = React.useState(roundSeconds);
-    const [solutions, setSolutions] = React.useState<ISolutions | "loading" | "error" | undefined>();
+    const [solutions, setSolutions] = React.useState<ISolution[] | "loading" | "error" | undefined>();
 
     React.useEffect(() => {
         if (phase !== "rolling") {
@@ -189,12 +206,13 @@ export function Game() {
                 if (cancelled) {
                     return;
                 }
-                const black = current.regular.map((tile) => tile.final);
-                const all = [...black, ...current.extras.map((tile) => tile.final)];
-                setSolutions({
-                    all: spellable(words, all).filter((word) => word.length >= 4),
-                    black: spellable(words, black),
-                });
+                setSolutions(
+                    solve(
+                        words,
+                        current.regular.map((tile) => tile.final),
+                        current.extras.map((tile) => tile.final),
+                    ),
+                );
             },
             () => {
                 if (!cancelled) {
@@ -255,60 +273,50 @@ export function Game() {
     );
 }
 
-function WordList(props: { title: string; words: string[]; highlight?: Set<string> }) {
-    const byLength = new Map<number, string[]>();
-    for (const word of props.words) {
-        const group = byLength.get(word.length) ?? [];
-        group.push(word);
-        byLength.set(word.length, group);
-    }
-    const lengths = [...byLength.keys()].sort((a, b) => b - a);
-    return (
-        <section className="word-list">
-            <h2>
-                {props.title} <span className="count">({props.words.length})</span>
-            </h2>
-            {lengths.length === 0 && <p>No words found.</p>}
-            {lengths.map((length) => (
-                <div className="word-group" key={length}>
-                    <h3>
-                        {length} letters <span className="count">({byLength.get(length)!.length})</span>
-                    </h3>
-                    <ul>
-                        {byLength.get(length)!.map((word) => (
-                            <li className={props.highlight?.has(word) ? "uses-red" : undefined} key={word}>
-                                <a href={`https://www.merriam-webster.com/dictionary/${word}`} rel="noreferrer" target="_blank">
-                                    {word}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-        </section>
-    );
-}
-
-function Solutions(props: { solutions: ISolutions | "loading" | "error" | undefined }) {
+function Solutions(props: { solutions: ISolution[] | "loading" | "error" | undefined }) {
     const { solutions } = props;
-    const needsRed = React.useMemo(() => {
-        if (typeof solutions !== "object") {
-            return new Set<string>();
-        }
-        const black = new Set(solutions.black);
-        return new Set(solutions.all.filter((word) => !black.has(word)));
-    }, [solutions]);
-
     if (solutions === undefined || solutions === "loading") {
         return <div className="solutions">Finding words…</div>;
     }
     if (solutions === "error") {
         return <div className="solutions">Couldn't load the word list.</div>;
     }
+
+    const byLength = new Map<number, ISolution[]>();
+    for (const solution of solutions) {
+        const group = byLength.get(solution.word.length) ?? [];
+        group.push(solution);
+        byLength.set(solution.word.length, group);
+    }
+    const lengths = [...byLength.keys()].sort((a, b) => b - a);
     return (
         <div className="solutions">
-            <WordList title="Black letters" words={solutions.black} />
-            <WordList highlight={needsRed} title="Black and red letters" words={solutions.all} />
+            <section className="word-list">
+                <h2>
+                    Words <span className="count">({solutions.length})</span>
+                </h2>
+                {lengths.length === 0 && <p>No words found.</p>}
+                {lengths.map((length) => (
+                    <div className="word-group" key={length}>
+                        <h3>
+                            {length} letters <span className="count">({byLength.get(length)!.length})</span>
+                        </h3>
+                        <ul>
+                            {byLength.get(length)!.map(({ word, red }) => (
+                                <li key={word}>
+                                    <a href={`https://www.merriam-webster.com/dictionary/${word}`} rel="noreferrer" target="_blank">
+                                        {[...word].map((letter, index) => (
+                                            <span className={red[index] ? "red" : undefined} key={index}>
+                                                {letter}
+                                            </span>
+                                        ))}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </section>
         </div>
     );
 }

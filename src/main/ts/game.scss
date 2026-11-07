@@ -68,10 +68,8 @@ body {
     line-height: 96px;
     margin: 6px 6px 12px;
     perspective: 400px;
+    position: relative;
     text-align: center;
-    text-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.9),
-        0 -1px 1px rgba(0, 0, 0, 0.25);
     transition:
         transform 140ms ease-out,
         width 600ms $tile-ease,
@@ -82,13 +80,35 @@ body {
     width: 96px;
 }
 
+// Recessed face inside the die's rim.
+.tile::before {
+    background: radial-gradient(circle at 60% 70%, #fbfaf6 0%, #efebe2 100%);
+    border-radius: 18%;
+    box-shadow:
+        inset 0 3px 5px rgba(0, 0, 0, 0.16),
+        inset 2px 0 4px rgba(0, 0, 0, 0.06),
+        inset 0 -2px 2px rgba(255, 255, 255, 0.9),
+        0 1px 0 rgba(255, 255, 255, 0.95),
+        0 -1px 0 rgba(0, 0, 0, 0.06);
+    content: "";
+    inset: 9%;
+    position: absolute;
+}
+
 .extra-die .tile {
-    color: #d11;
+    color: #c40d0d;
 }
 
 .face {
     animation: flip 80ms ease-out;
     display: inline-block;
+    opacity: 0.88;
+    position: relative;
+    text-shadow:
+        0 2px 0 rgba(255, 255, 255, 0.95),
+        0 1px 1px rgba(255, 255, 255, 0.9),
+        0 -2px 1px rgba(0, 0, 0, 0.35),
+        1px -1px 1px rgba(0, 0, 0, 0.2);
 
     &.settled {
         animation: land 260ms $tile-ease;

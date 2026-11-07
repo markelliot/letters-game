@@ -62,8 +62,9 @@ body {
         0 2px 3px rgba(0, 0, 0, 0.18),
         0 10px 16px -4px rgba(0, 0, 0, 0.25);
     color: #111;
+    font-family: "Rubik", "Roboto", sans-serif;
     font-size: 70px;
-    font-weight: bold;
+    font-weight: 600;
     height: 96px;
     line-height: 96px;
     margin: 6px 6px 12px;
@@ -82,16 +83,14 @@ body {
 
 // Recessed face inside the die's rim.
 .tile::before {
-    background: radial-gradient(circle at 60% 70%, #fbfaf6 0%, #efebe2 100%);
-    border-radius: 18%;
+    background: radial-gradient(circle at 60% 70%, #fcfbf8 0%, #f2efe7 100%);
+    border-radius: 19%;
     box-shadow:
-        inset 0 3px 5px rgba(0, 0, 0, 0.16),
-        inset 2px 0 4px rgba(0, 0, 0, 0.06),
-        inset 0 -2px 2px rgba(255, 255, 255, 0.9),
-        0 1px 0 rgba(255, 255, 255, 0.95),
-        0 -1px 0 rgba(0, 0, 0, 0.06);
+        inset 0 1px 2px rgba(0, 0, 0, 0.1),
+        inset 0 -1px 1px rgba(255, 255, 255, 0.8),
+        0 1px 0 rgba(255, 255, 255, 0.8);
     content: "";
-    inset: 9%;
+    inset: 6%;
     position: absolute;
 }
 

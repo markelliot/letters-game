@@ -191,7 +191,10 @@ export function Game() {
                 }
                 const black = current.regular.map((tile) => tile.final);
                 const all = [...black, ...current.extras.map((tile) => tile.final)];
-                setSolutions({ all: spellable(words, all), black: spellable(words, black) });
+                setSolutions({
+                    all: spellable(words, all).filter((word) => word.length >= 4),
+                    black: spellable(words, black),
+                });
             },
             () => {
                 if (!cancelled) {

@@ -283,3 +283,40 @@ body {
         color: #d11;
     }
 }
+
+@media (max-width: 540px) {
+    .tile {
+        $size: min(64px, calc((100vw - 16px) / 5 - 10px));
+        font-size: calc(#{$size} * 0.7);
+        height: $size;
+        line-height: $size;
+        margin: 4px 5px 8px;
+        width: $size;
+    }
+
+    .tiles.compact .tile {
+        $size: min(32px, calc((100vw - 16px) / 10 - 6px));
+        font-size: calc(#{$size} * 0.7);
+        height: $size;
+        line-height: $size;
+        margin: 3px 3px 5px;
+        width: $size;
+    }
+
+    .scorecard table {
+        font-size: 13px;
+        width: calc(100% - 16px);
+
+        th, td {
+            padding: 4px 0;
+        }
+
+        col.label {
+            width: 17%;
+        }
+    }
+
+    .solutions {
+        width: calc(100% - 24px);
+    }
+}

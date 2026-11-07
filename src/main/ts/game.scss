@@ -1,3 +1,6 @@
+$header-height: 64px;
+$tile-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
 body {
     font-family: "Roboto";
 }
@@ -5,37 +8,140 @@ body {
 .game {
     margin: 0 auto;
     max-width: 550px;
+    padding-bottom: 24px;
 }
 
-.timer {
+.header {
+    align-items: center;
+    display: flex;
+    height: $header-height;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+.time {
     font-size: 50px;
-    padding: 2px;
-    text-align: center;
-    width: 100%;
+    font-variant-numeric: tabular-nums;
+    line-height: $header-height;
 }
 
-.reset {
-    line-height: 48px;
+.action {
+    background: linear-gradient(#4a90e2, #2f6fbf);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 #22528f, 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: bold;
+    height: 52px;
+    letter-spacing: 0.04em;
+    padding: 0 32px;
+    text-transform: uppercase;
+
+    &:active {
+        box-shadow: 0 1px 0 #22528f, 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(2px);
+    }
 }
 
 .board {
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.board div {
-    border: 1px solid #999;
-    color: #000;
-    display: inline-block;
+.tile {
+    background: radial-gradient(circle at 32% 28%, #fff 0%, #f8f6f1 42%, #e6e1d6 100%);
+    border-radius: 22%;
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.05),
+        inset 4px 4px 6px rgba(255, 255, 255, 0.95),
+        inset -5px -6px 10px rgba(0, 0, 0, 0.13),
+        0 2px 3px rgba(0, 0, 0, 0.18),
+        0 10px 16px -4px rgba(0, 0, 0, 0.25);
+    color: #111;
+    font-family: "Lexend", "Roboto", sans-serif;
     font-size: 70px;
-    font-weight: bold;
-    line-height: 70px;
-    margin: 8px;
-    padding: 10px;
-    width: 92px;
+    font-weight: 600;
+    height: 96px;
+    line-height: 96px;
+    margin: 6px 6px 12px;
+    perspective: 400px;
+    position: relative;
+    text-align: center;
+    transition:
+        transform 140ms ease-out,
+        width 600ms $tile-ease,
+        height 600ms $tile-ease,
+        line-height 600ms $tile-ease,
+        font-size 600ms $tile-ease,
+        margin 600ms $tile-ease;
+    width: 96px;
 }
 
-.extra-die div {
-    color: #f00;
+// Recessed face inside the die's rim.
+.tile::before {
+    background: radial-gradient(circle at 55% 62%, rgba(255, 255, 255, 0.7) 0%, rgba(240, 236, 228, 0.5) 100%);
+    border-radius: 20%;
+    box-shadow:
+        inset 0 3px 6px rgba(0, 0, 0, 0.07),
+        inset 0 -3px 5px rgba(255, 255, 255, 0.7),
+        0 2px 4px rgba(255, 255, 255, 0.6);
+    content: "";
+    filter: blur(1.5px);
+    inset: 6%;
+    position: absolute;
+}
+
+.extra-die .tile {
+    color: #c40d0d;
+}
+
+.face {
+    animation: flip 80ms ease-out;
+    display: inline-block;
+    opacity: 0.88;
+    position: relative;
+    text-shadow:
+        0 2px 0 rgba(255, 255, 255, 0.95),
+        0 1px 1px rgba(255, 255, 255, 0.9),
+        0 -2px 1px rgba(0, 0, 0, 0.35),
+        1px -1px 1px rgba(0, 0, 0, 0.2);
+
+    &.settled {
+        animation: land 260ms $tile-ease;
+    }
+}
+
+@keyframes flip {
+    from {
+        transform: rotateX(-90deg);
+    }
+    to {
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes land {
+    0% {
+        transform: rotateX(-90deg) scale(1);
+    }
+    60% {
+        transform: rotateX(0deg) scale(1.12);
+    }
+    100% {
+        transform: rotateX(0deg) scale(1);
+    }
+}
+
+.tiles.compact .tile {
+    font-size: 32px;
+    height: 46px;
+    line-height: 46px;
+    margin: 4px 4px 8px;
+    width: 46px;
 }
 
 .scorecard table {
@@ -50,8 +156,167 @@ body {
         padding: 4px;
         text-align: center;
     }
-    
+
+    table-layout: fixed;
+
+    col.label {
+        width: 16%;
+    }
+
     tr:nth-child(even) {
         background-color: #eee;
+    }
+
+    tr.combo {
+        border-top: 2px solid #666;
+
+        td {
+            background-color: #fdf3d8;
+        }
+
+        td.gap {
+            background-color: transparent;
+        }
+    }
+}
+
+.solutions {
+    margin: 16px auto 0;
+    text-align: center;
+    width: 80%;
+}
+
+.word-list {
+    text-align: left;
+
+    h2 {
+        align-items: center;
+        border-bottom: 1px solid #999;
+        display: flex;
+        font-size: 20px;
+        justify-content: space-between;
+        margin: 16px 0 8px;
+    }
+
+    .toggle {
+        align-items: center;
+        color: #d11;
+        cursor: pointer;
+        display: flex;
+        font-size: 14px;
+        font-weight: normal;
+        gap: 6px;
+        user-select: none;
+
+        input {
+            height: 0;
+            opacity: 0;
+            position: absolute;
+            width: 0;
+        }
+
+        .switch {
+            background: #ccc;
+            border-radius: 9px;
+            height: 18px;
+            position: relative;
+            transition: background 150ms;
+            width: 32px;
+
+            &::after {
+                background: #fff;
+                border-radius: 50%;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                content: "";
+                height: 14px;
+                left: 2px;
+                position: absolute;
+                top: 2px;
+                transition: transform 150ms;
+                width: 14px;
+            }
+        }
+
+        input:checked + .switch {
+            background: #d11;
+
+            &::after {
+                transform: translateX(14px);
+            }
+        }
+
+        input:focus-visible + .switch {
+            outline: 2px solid #4a90e2;
+            outline-offset: 2px;
+        }
+    }
+
+    h3 {
+        font-size: 15px;
+        margin: 10px 0 4px;
+    }
+
+    .count {
+        color: #777;
+        font-weight: normal;
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        color: #111;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .red {
+        color: #d11;
+    }
+}
+
+@media (max-width: 540px) {
+    .tile {
+        $size: min(96px, calc((100vw - 16px) / 3 - 10px), calc((100svh - 150px) / 5));
+        font-size: calc(#{$size} * 0.7);
+        height: $size;
+        line-height: $size;
+        margin: 4px 5px 8px;
+        width: $size;
+    }
+
+    .tiles.compact .tile {
+        $size: min(32px, calc((100vw - 16px) / 10 - 6px));
+        font-size: calc(#{$size} * 0.7);
+        height: $size;
+        line-height: $size;
+        margin: 3px 3px 5px;
+        width: $size;
+    }
+
+    .scorecard table {
+        font-size: 13px;
+        width: calc(100% - 16px);
+
+        th, td {
+            padding: 4px 0;
+        }
+
+        col.label {
+            width: 17%;
+        }
+    }
+
+    .solutions {
+        width: calc(100% - 24px);
     }
 }

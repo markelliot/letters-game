@@ -25,6 +25,10 @@ module.exports = {
                 ],
             },
             {
+                test: /\.txt$/,
+                type: "asset/resource",
+            },
+            {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 type: "asset/resource",
             },

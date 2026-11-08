@@ -53,14 +53,13 @@ body {
 }
 
 .tile {
-    background: radial-gradient(circle at 32% 28%, #fff 0%, #f8f6f1 42%, #e6e1d6 100%);
+    background: linear-gradient(160deg, #fdfcf9, #f1eee7);
     border-radius: 22%;
     box-shadow:
-        inset 0 0 0 1px rgba(0, 0, 0, 0.05),
-        inset 4px 4px 6px rgba(255, 255, 255, 0.95),
-        inset -5px -6px 10px rgba(0, 0, 0, 0.13),
-        0 2px 3px rgba(0, 0, 0, 0.18),
-        0 10px 16px -4px rgba(0, 0, 0, 0.25);
+        inset 0 0 0 1.5px rgba(0, 0, 0, 0.22),
+        inset 0 -3px 4px rgba(0, 0, 0, 0.05),
+        0 1px 2px rgba(0, 0, 0, 0.12),
+        0 4px 8px -2px rgba(0, 0, 0, 0.12);
     color: #111;
     font-family: "Lexend", "Roboto", sans-serif;
     font-size: 70px;
@@ -81,34 +80,15 @@ body {
     width: 96px;
 }
 
-// Recessed face inside the die's rim.
-.tile::before {
-    background: radial-gradient(circle at 55% 62%, rgba(255, 255, 255, 0.7) 0%, rgba(240, 236, 228, 0.5) 100%);
-    border-radius: 20%;
-    box-shadow:
-        inset 0 3px 6px rgba(0, 0, 0, 0.07),
-        inset 0 -3px 5px rgba(255, 255, 255, 0.7),
-        0 2px 4px rgba(255, 255, 255, 0.6);
-    content: "";
-    filter: blur(1.5px);
-    inset: 6%;
-    position: absolute;
-}
-
 .extra-die .tile {
     color: #c40d0d;
 }
 
 .face {
-    animation: flip 80ms ease-out;
+    animation: flip 110ms ease-out;
     display: inline-block;
-    opacity: 0.88;
     position: relative;
-    text-shadow:
-        0 2px 0 rgba(255, 255, 255, 0.95),
-        0 1px 1px rgba(255, 255, 255, 0.9),
-        0 -2px 1px rgba(0, 0, 0, 0.35),
-        1px -1px 1px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
 
     &.settled {
         animation: land 260ms $tile-ease;
@@ -134,14 +114,6 @@ body {
     100% {
         transform: rotateX(0deg) scale(1);
     }
-}
-
-.tiles.compact .tile {
-    font-size: 32px;
-    height: 46px;
-    line-height: 46px;
-    margin: 4px 4px 8px;
-    width: 46px;
 }
 
 .scorecard table {
@@ -291,15 +263,6 @@ body {
         height: $size;
         line-height: $size;
         margin: 4px 5px 8px;
-        width: $size;
-    }
-
-    .tiles.compact .tile {
-        $size: min(32px, calc((100vw - 16px) / 10 - 6px));
-        font-size: calc(#{$size} * 0.7);
-        height: $size;
-        line-height: $size;
-        margin: 3px 3px 5px;
         width: $size;
     }
 

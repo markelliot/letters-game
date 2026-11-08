@@ -56,12 +56,12 @@ body {
     border-radius: 12%;
     box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, 0.22);
     color: #111;
-    font-family: "Lexend", "Roboto", sans-serif;
     font-size: 70px;
-    font-weight: 300;
-    height: 92px;
-    line-height: 92px;
-    margin: 6px;
+    font-weight: bold;
+    height: 70px;
+    line-height: 70px;
+    margin: 8px;
+    padding: 10px;
     position: relative;
     text-align: center;
     width: 92px;
@@ -216,15 +216,6 @@ body {
 }
 
 @media (max-width: 540px) {
-    .tile {
-        $size: min(92px, calc((100vw - 16px) / 3 - 12px), calc((100svh - 150px) / 5 - 12px));
-        font-size: calc(#{$size} * 0.76);
-        height: $size;
-        line-height: $size;
-        margin: 6px;
-        width: $size;
-    }
-
     .scorecard table {
         font-size: 13px;
         width: calc(100% - 16px);

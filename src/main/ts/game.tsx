@@ -265,7 +265,7 @@ export function Game() {
     return (
         <div className="game">
             <div className="header">{header}</div>
-            <div className={phase === "ended" ? "tiles compact" : "tiles"}>
+            <div className="tiles">
                 <div className="board">{renderTiles(current?.regular, regularDice.length)}</div>
                 <div className="board extra-die">{renderTiles(current?.extras, extraDice.length)}</div>
             </div>

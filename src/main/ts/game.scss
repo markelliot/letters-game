@@ -136,14 +136,6 @@ body {
     }
 }
 
-.tiles.compact .tile {
-    font-size: 32px;
-    height: 46px;
-    line-height: 46px;
-    margin: 4px 4px 8px;
-    width: 46px;
-}
-
 .scorecard table {
     border: 1px solid #999;
     border-collapse: collapse;
@@ -291,15 +283,6 @@ body {
         height: $size;
         line-height: $size;
         margin: 4px 5px 8px;
-        width: $size;
-    }
-
-    .tiles.compact .tile {
-        $size: min(32px, calc((100vw - 16px) / 10 - 6px));
-        font-size: calc(#{$size} * 0.7);
-        height: $size;
-        line-height: $size;
-        margin: 3px 3px 5px;
         width: $size;
     }
 

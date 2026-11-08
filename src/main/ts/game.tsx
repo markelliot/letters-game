@@ -4,7 +4,6 @@ import wordListUrl from "../resources/words.txt";
 import "./game.scss";
 
 const roundSeconds = 150;
-const rollMs = 3000;
 
 const regularDice = [
     ["A", "A", "A", "E", "E", "E"],
@@ -25,18 +24,11 @@ const extraDice = [
     ["C", "D", "G", "J", "K", "M"],
 ];
 
-type Phase = "idle" | "rolling" | "playing" | "ended";
-
-interface ITile {
-    final: string;
-    // Faces shown while rolling, paired with the elapsed ms at which each appears.
-    faces: string[];
-    times: number[];
-}
+type Phase = "idle" | "playing" | "ended";
 
 interface IRoll {
-    regular: ITile[];
-    extras: ITile[];
+    regular: string[];
+    extras: string[];
 }
 
 function randomElement<T>(items: T[]): T {
@@ -51,41 +43,11 @@ function shuffle<T>(array: T[]): T[] {
     return array;
 }
 
-function rollTile(die: string[], settleAt: number): ITile {
-    const final = randomElement(die);
-    const count = 3 + Math.floor(Math.random() * 3);
-    // Gaps grow geometrically and sum to settleAt.
-    const growth = 1.12;
-    const firstGap = (settleAt * (growth - 1)) / (growth ** (count - 1) - 1);
-    const faces: string[] = [];
-    const times: number[] = [];
-    let t = 0;
-    let gap = firstGap;
-    for (let i = 0; i < count - 1; i++) {
-        const avoid = [faces[i - 1], i === count - 2 ? final : undefined];
-        const options = die.filter((face) => !avoid.includes(face));
-        faces.push(randomElement(options.length > 0 ? options : die));
-        times.push(t);
-        t += gap;
-        gap *= growth;
-    }
-    faces.push(final);
-    times.push(settleAt);
-    return { faces, final, times };
-}
-
 function roll(): IRoll {
-    const dice = [...shuffle([...regularDice]), ...shuffle([...extraDice])];
-    const tiles = dice.map((die) => rollTile(die, rollMs - 600 + Math.random() * 600));
-    return { extras: tiles.slice(regularDice.length), regular: tiles.slice(0, regularDice.length) };
-}
-
-function faceIndex(tile: ITile, elapsed: number): number {
-    let index = 0;
-    while (index + 1 < tile.times.length && tile.times[index + 1] <= elapsed) {
-        index++;
-    }
-    return index;
+    return {
+        extras: shuffle([...extraDice]).map(randomElement),
+        regular: shuffle([...regularDice]).map(randomElement),
+    };
 }
 
 let wordListPromise: Promise<string[]> | undefined;
@@ -157,28 +119,9 @@ function solve(words: string[], black: string[], red: string[]): ISolution[] {
 export function Game() {
     const [phase, setPhase] = React.useState<Phase>("idle");
     const [current, setCurrent] = React.useState<IRoll | undefined>();
-    const [elapsed, setElapsed] = React.useState(0);
     const [remaining, setRemaining] = React.useState(roundSeconds);
     const [solutions, setSolutions] = React.useState<ISolution[] | "loading" | "error" | undefined>();
     const [showReds, setShowReds] = React.useState(false);
-
-    React.useEffect(() => {
-        if (phase !== "rolling") {
-            return;
-        }
-        const start = performance.now();
-        let frame = requestAnimationFrame(function tick() {
-            const ms = performance.now() - start;
-            if (ms >= rollMs) {
-                setElapsed(rollMs);
-                setPhase("playing");
-                return;
-            }
-            setElapsed(ms);
-            frame = requestAnimationFrame(tick);
-        });
-        return () => cancelAnimationFrame(frame);
-    }, [phase, current]);
 
     React.useEffect(() => {
         if (phase !== "playing") {
@@ -210,8 +153,8 @@ export function Game() {
                 setSolutions(
                     solve(
                         words,
-                        current.regular.map((tile) => tile.final),
-                        current.extras.map((tile) => tile.final),
+                        current.regular,
+                        current.extras,
                     ),
                 );
             },
@@ -229,10 +172,9 @@ export function Game() {
     const start = () => {
         loadWordList().catch(() => undefined);
         setSolutions(undefined);
-        setElapsed(0);
         setRemaining(roundSeconds);
         setCurrent(roll());
-        setPhase("rolling");
+        setPhase("playing");
     };
 
     let header: React.ReactNode;
@@ -244,22 +186,15 @@ export function Game() {
         header = <span className="time">{remaining}</span>;
     }
 
-    const renderTiles = (tiles: ITile[] | undefined, count: number) => {
+    const renderTiles = (tiles: string[] | undefined, count: number) => {
         if (!tiles) {
             return Array.from({ length: count }, (_, index) => <div className="tile blank" key={index} />);
         }
-        return tiles.map((tile, index) => {
-            const face = phase === "rolling" ? faceIndex(tile, elapsed) : tile.faces.length - 1;
-            const settled = face === tile.faces.length - 1;
-            const tilt = settled ? 0 : ((face * 53 + index * 29) % 9) - 4;
-            return (
-                <div className="tile" key={index} style={{ transform: `rotate(${tilt}deg)` }}>
-                    <span className={settled ? "face settled" : "face"} key={face}>
-                        {tile.faces[face]}
-                    </span>
-                </div>
-            );
-        });
+        return tiles.map((letter, index) => (
+            <div className="tile" key={index}>
+                {letter}
+            </div>
+        ));
     };
 
     return (

@@ -1,5 +1,4 @@
 $header-height: 64px;
-$tile-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
 body {
     font-family: "Roboto";
@@ -63,56 +62,13 @@ body {
     height: 96px;
     line-height: 96px;
     margin: 6px 6px 12px;
-    perspective: 400px;
     position: relative;
     text-align: center;
-    transition:
-        transform 140ms ease-out,
-        width 600ms $tile-ease,
-        height 600ms $tile-ease,
-        line-height 600ms $tile-ease,
-        font-size 600ms $tile-ease,
-        margin 600ms $tile-ease;
     width: 96px;
 }
 
 .extra-die .tile {
     color: #c40d0d;
-}
-
-.face {
-    animation: flip 220ms ease-out;
-    display: inline-block;
-    position: relative;
-
-    &.settled {
-        animation: land 320ms $tile-ease;
-    }
-}
-
-@keyframes flip {
-    from {
-        opacity: 0.5;
-        transform: translateY(-6%);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes land {
-    0% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-    60% {
-        opacity: 1;
-        transform: scale(1.06);
-    }
-    100% {
-        transform: scale(1);
-    }
 }
 
 .scorecard table {

@@ -56,7 +56,7 @@ function rollTile(die: string[], settleAt: number): ITile {
     const faces: string[] = [];
     const times: number[] = [];
     let t = 0;
-    let gap = 70;
+    let gap = 130;
     let previous = "";
     while (t < settleAt) {
         const options = die.filter((face) => face !== previous);
@@ -65,8 +65,8 @@ function rollTile(die: string[], settleAt: number): ITile {
         times.push(t);
         previous = face;
         t += gap;
-        if (t > settleAt * 0.6) {
-            gap *= 1.18;
+        if (t > settleAt * 0.5) {
+            gap *= 1.15;
         }
     }
     faces.push(final);

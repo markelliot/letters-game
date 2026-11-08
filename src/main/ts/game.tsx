@@ -4,7 +4,7 @@ import wordListUrl from "../resources/words.txt";
 import "./game.scss";
 
 const roundSeconds = 150;
-const rollMs = 5000;
+const rollMs = 3000;
 
 const regularDice = [
     ["A", "A", "A", "E", "E", "E"],
@@ -53,7 +53,7 @@ function shuffle<T>(array: T[]): T[] {
 
 function rollTile(die: string[], settleAt: number): ITile {
     const final = randomElement(die);
-    const count = 10 + Math.floor(Math.random() * 6);
+    const count = 3 + Math.floor(Math.random() * 3);
     // Gaps grow geometrically and sum to settleAt.
     const growth = 1.12;
     const firstGap = (settleAt * (growth - 1)) / (growth ** (count - 1) - 1);
@@ -76,7 +76,7 @@ function rollTile(die: string[], settleAt: number): ITile {
 
 function roll(): IRoll {
     const dice = [...shuffle([...regularDice]), ...shuffle([...extraDice])];
-    const tiles = dice.map((die) => rollTile(die, rollMs - 800 + Math.random() * 800));
+    const tiles = dice.map((die) => rollTile(die, rollMs - 600 + Math.random() * 600));
     return { extras: tiles.slice(regularDice.length), regular: tiles.slice(0, regularDice.length) };
 }
 
@@ -251,7 +251,7 @@ export function Game() {
         return tiles.map((tile, index) => {
             const face = phase === "rolling" ? faceIndex(tile, elapsed) : tile.faces.length - 1;
             const settled = face === tile.faces.length - 1;
-            const tilt = settled ? 0 : ((face * 53 + index * 29) % 21) - 10;
+            const tilt = settled ? 0 : ((face * 53 + index * 29) % 9) - 4;
             return (
                 <div className="tile" key={index} style={{ transform: `rotate(${tilt}deg)` }}>
                     <span className={settled ? "face settled" : "face"} key={face}>

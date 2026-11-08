@@ -53,17 +53,13 @@ body {
 }
 
 .tile {
-    background: linear-gradient(160deg, #fdfcf9, #f1eee7);
+    background: #faf9f6;
     border-radius: 22%;
-    box-shadow:
-        inset 0 0 0 1.5px rgba(0, 0, 0, 0.22),
-        inset 0 -3px 4px rgba(0, 0, 0, 0.05),
-        0 1px 2px rgba(0, 0, 0, 0.12),
-        0 4px 8px -2px rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, 0.22);
     color: #111;
     font-family: "Lexend", "Roboto", sans-serif;
     font-size: 70px;
-    font-weight: 600;
+    font-weight: 400;
     height: 96px;
     line-height: 96px;
     margin: 6px 6px 12px;
@@ -85,34 +81,37 @@ body {
 }
 
 .face {
-    animation: flip 110ms ease-out;
+    animation: flip 220ms ease-out;
     display: inline-block;
     position: relative;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
 
     &.settled {
-        animation: land 260ms $tile-ease;
+        animation: land 320ms $tile-ease;
     }
 }
 
 @keyframes flip {
     from {
-        transform: rotateX(-90deg);
+        opacity: 0.5;
+        transform: translateY(-6%);
     }
     to {
-        transform: rotateX(0deg);
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 @keyframes land {
     0% {
-        transform: rotateX(-90deg) scale(1);
+        opacity: 0.5;
+        transform: scale(1);
     }
     60% {
-        transform: rotateX(0deg) scale(1.12);
+        opacity: 1;
+        transform: scale(1.06);
     }
     100% {
-        transform: rotateX(0deg) scale(1);
+        transform: scale(1);
     }
 }
 

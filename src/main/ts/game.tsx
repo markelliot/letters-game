@@ -4,7 +4,7 @@ import wordListUrl from "../resources/words.txt";
 import "./game.scss";
 
 const roundSeconds = 150;
-const rollMs = 3000;
+const rollMs = 5000;
 
 const regularDice = [
     ["A", "A", "A", "E", "E", "E"],
@@ -53,21 +53,21 @@ function shuffle<T>(array: T[]): T[] {
 
 function rollTile(die: string[], settleAt: number): ITile {
     const final = randomElement(die);
+    const count = 10 + Math.floor(Math.random() * 6);
+    // Gaps grow geometrically and sum to settleAt.
+    const growth = 1.12;
+    const firstGap = (settleAt * (growth - 1)) / (growth ** (count - 1) - 1);
     const faces: string[] = [];
     const times: number[] = [];
     let t = 0;
-    let gap = 130;
-    let previous = "";
-    while (t < settleAt) {
-        const options = die.filter((face) => face !== previous);
-        const face = randomElement(options.length > 0 ? options : die);
-        faces.push(face);
+    let gap = firstGap;
+    for (let i = 0; i < count - 1; i++) {
+        const avoid = [faces[i - 1], i === count - 2 ? final : undefined];
+        const options = die.filter((face) => !avoid.includes(face));
+        faces.push(randomElement(options.length > 0 ? options : die));
         times.push(t);
-        previous = face;
         t += gap;
-        if (t > settleAt * 0.5) {
-            gap *= 1.15;
-        }
+        gap *= growth;
     }
     faces.push(final);
     times.push(settleAt);
@@ -76,7 +76,7 @@ function rollTile(die: string[], settleAt: number): ITile {
 
 function roll(): IRoll {
     const dice = [...shuffle([...regularDice]), ...shuffle([...extraDice])];
-    const tiles = dice.map((die) => rollTile(die, rollMs - 700 + Math.random() * 700));
+    const tiles = dice.map((die) => rollTile(die, rollMs - 800 + Math.random() * 800));
     return { extras: tiles.slice(regularDice.length), regular: tiles.slice(0, regularDice.length) };
 }
 

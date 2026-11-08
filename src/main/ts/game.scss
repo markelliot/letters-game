@@ -61,7 +61,7 @@ body {
     font-weight: 400;
     height: 92px;
     line-height: 92px;
-    margin: 8px;
+    margin: 6px;
     position: relative;
     text-align: center;
     width: 92px;
@@ -213,11 +213,11 @@ body {
 
 @media (max-width: 540px) {
     .tile {
-        $size: min(92px, calc((100vw - 16px) / 3 - 16px), calc((100svh - 150px) / 5 - 16px));
+        $size: min(92px, calc((100vw - 16px) / 3 - 12px), calc((100svh - 150px) / 5 - 12px));
         font-size: calc(#{$size} * 0.76);
         height: $size;
         line-height: $size;
-        margin: 8px;
+        margin: 6px;
         width: $size;
     }
 

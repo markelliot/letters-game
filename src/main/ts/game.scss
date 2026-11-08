@@ -81,33 +81,37 @@ body {
 }
 
 .face {
-    animation: flip 110ms ease-out;
+    animation: flip 220ms ease-out;
     display: inline-block;
     position: relative;
 
     &.settled {
-        animation: land 260ms $tile-ease;
+        animation: land 320ms $tile-ease;
     }
 }
 
 @keyframes flip {
     from {
-        transform: rotateX(-90deg);
+        opacity: 0.5;
+        transform: translateY(-6%);
     }
     to {
-        transform: rotateX(0deg);
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 @keyframes land {
     0% {
-        transform: rotateX(-90deg) scale(1);
+        opacity: 0.5;
+        transform: scale(1);
     }
     60% {
-        transform: rotateX(0deg) scale(1.12);
+        opacity: 1;
+        transform: scale(1.06);
     }
     100% {
-        transform: rotateX(0deg) scale(1);
+        transform: scale(1);
     }
 }
 

@@ -251,7 +251,7 @@ export function Game() {
         return tiles.map((tile, index) => {
             const face = phase === "rolling" ? faceIndex(tile, elapsed) : tile.faces.length - 1;
             const settled = face === tile.faces.length - 1;
-            const tilt = settled ? 0 : ((face * 53 + index * 29) % 21) - 10;
+            const tilt = settled ? 0 : ((face * 53 + index * 29) % 9) - 4;
             return (
                 <div className="tile" key={index} style={{ transform: `rotate(${tilt}deg)` }}>
                     <span className={settled ? "face settled" : "face"} key={face}>
